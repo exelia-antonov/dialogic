@@ -99,9 +99,13 @@ func load_timeline(resource:DialogicTimeline) -> void:
 		var batch_size := 10
 		_batches = []
 		_building_timeline = true
-		while batch_events(data, batch_size, page).size() != 0:
-			_batches.append(batch_events(data, batch_size, page))
+		while true:
+			var _event_batch = batch_events(data, batch_size, page)
+			if _event_batch.size() != 0:
+				_batches.append(_event_batch)
 			page += 1
+			else:
+				break
 		batch_loaded.emit()
 	# Reset the scroll position
 	%TimelineArea.scroll_vertical = 0
